@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: myjavawebappdeployment
+spec:
+ replicas: 1
+ strategy: 
+    type: Recreate
+ selector: 
+   matchLabels: 
+     app: myjavawebapp
+ template:
+  metadata:
+   name: myjavawebapppod
+   labels:
+     app: myjavawebapp	 
+  spec: 
+    containers:
+    - name: myjavawebappcontainer
+      image: avinash666/myjavawebapp
+      ports:
+      - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: myjavawebappsvc
+spec:
+  type: NodePort
+  selector:
+   app: myjavawebapp
+  ports:
+   - port: 80
+     targetPort: 8080
+...
